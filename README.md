@@ -9,7 +9,6 @@
  
 ### Requisitos ###
  - Necessário Node.js 16.13.x, 18.10.x
- - Para deploy, inserir arquivo certs/shaweb-web.pem
 
 ### Depedencias ### 
 - [Angular](https://angular.io/) - Framework Web
