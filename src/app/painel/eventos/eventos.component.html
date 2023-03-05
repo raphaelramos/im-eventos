@@ -1,0 +1,12 @@
+<h3 class="margin">Selecione um evento</h3>
+<div class="grid-default margin">
+  <mat-card *ngFor="let evento of eventos" [routerLink]="[evento.idEvento]" appearance="outlined" class="pointer">
+    <mat-card-header>
+      <mat-card-title> {{ evento.evento }} </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ evento.data_inicio | date}}</p>
+      <p>{{ evento.local}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

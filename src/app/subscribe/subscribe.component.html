@@ -1,0 +1,190 @@
+<mat-toolbar color="primary" class="flex justify-between">
+    <span>Inscrição</span>
+</mat-toolbar>
+
+<ngx-ui-loader></ngx-ui-loader>
+
+<section *ngIf="!isComplete" ngxUiLoaderBlurred>
+  <!-- list events and options -->
+  <!-- Next events -->
+  <section>
+    <h3 class="margin">Selecione um evento</h3>
+    <div class="grid-default margin">
+      <mat-card *ngFor="let event of proximosEventos" appearance="outlined"
+      (click)="listaOpcoes(event.idEvento)" [ngClass]="{'selected-background' : event.idEvento === eventId}" class="pointer">
+        <mat-card-header>
+          <div mat-card-avatar class="evento-image cover"></div>
+          <mat-card-title> {{ event.evento }} </mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Selected event options -->
+  <section *ngIf="opcoesEvento?.length > 0">
+    <h3 class="margin">Selecione uma opção</h3>
+    <div class="grid-default margin">
+      <mat-card *ngFor="let opcao of opcoesEvento"
+      (click)="setEventOption(opcao)"
+      appearance="outlined" [ngClass]="{'selected-background' : opcao.idValor === eventOptionId}" class="pointer">
+        <mat-card-header>
+          <mat-card-title> {{ opcao.nomeValor }} </mat-card-title>
+          <mat-card-content>
+            <p>{{ opcao.descricaoValor }}</p>
+            <mat-divider class="margin"></mat-divider>
+            <p><strong>Valor:</strong> R$ {{ opcao.valor }} - Lote: {{ opcao.lote }}</p>
+            <p><strong>Disponível até:</strong> {{ opcao.data_fim | date}}</p>
+          </mat-card-content>
+        </mat-card-header>
+      </mat-card>
+    </div>
+
+    <form [formGroup]="userFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="cpf" name="cpf" mask="000.000.000-00">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="checkCpf()" [disabled]="!eventOptionId">Avançar</button>
+    </form>
+    <mat-error class="margin" *ngIf="isCPFError">CPF inválido!</mat-error>
+  </section>
+
+  <!-- Forms -->
+  <section *ngIf="!isCPFError && showForms">
+    <h3 class="margin">Opção: {{ eventOptionName }}</h3>
+    <p class="margin" *ngIf="user">Aluno: {{ user?.nome }}</p>
+    <p class="margin" *ngIf="!isCpfRegistered">CPF não encontrado. Realize o cadastro.</p>
+    <mat-stepper linear #stepper>
+      <mat-step *ngIf="!isCpfRegistered" [stepControl]="userFormGroup" [editable]="false">
+        <form [formGroup]="userFormGroup">
+          <ng-template matStepLabel>Cadastro</ng-template>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nome Completo para Certificado</mat-label>
+            <input matInput formControlName="nome" name="nome">
+          </mat-form-field>
+        
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" name="email">
+          </mat-form-field>
+        
+          <mat-form-field appearance="fill">
+            <mat-label>Insira sua Senha</mat-label>
+            <input matInput type="password" formControlName="password" name="password">
+          </mat-form-field>
+        
+          <mat-form-field appearance="fill">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="telefone" name="telefone" mask="(00) 0000-0000">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label>Data de Nascimento</mat-label>
+            <input matInput type="date" formControlName="dataNascimento" name="dataNascimento">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Estado</mat-label>
+            <mat-select name="estado" formControlName="estado">
+              <mat-option *ngFor="let estado of estados" [value]="estado.sigla">
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+          <mat-form-field appearance="fill">
+            <mat-label>Cidade</mat-label>
+            <input matInput formControlName="cidade" name="cidade">
+          </mat-form-field>
+        
+          <mat-form-field appearance="fill">
+            <mat-label>Sexo</mat-label>
+            <mat-select placeholder="Selecione" formControlName="sexo" name="sexo">
+              <mat-option value="M">Masculino</mat-option>
+              <mat-option value="F">Feminino</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <div>
+            <button mat-raised-button color="primary" matStepperNext>Avançar</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="subscribeuserFormGroup" [editable]="false">
+        <form [formGroup]="subscribeuserFormGroup" (ngSubmit)="onSubmit()">
+          <ng-template matStepLabel>Inscrição</ng-template>
+
+          <mat-form-field *ngIf="isAvailableNivel">
+            <mat-label>Nível do IM</mat-label>
+            <mat-select placeholder="Selecione" formControlName="nivel" name="nivel">
+              <mat-option value="1">Nível 1</mat-option>
+              <mat-option value="2">Nível 2</mat-option>
+              <mat-option value="3">Nível 3</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label position="floating">Igreja</mat-label>
+            <mat-select interface="popover" class="igrejas" placeholder="Selecione" formControlName="idIgreja" name="idIgreja">
+              <mat-option *ngFor="let igreja of igrejas" [value]="igreja.idIgreja">
+                {{ igreja.nomeIgreja | uppercase }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="fill">
+            <mat-label position="floating">Alguma necessidade especial?</mat-label>
+            <input matInput formControlName="necessidade" name="necessidade">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label position="floating">Telefone contato em caso de urgência</mat-label>
+            <input matInput formControlName="contatoUrgencia" name="contatoUrgencia" mask="(00) 0000-0000">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label position="floating">Nome contato em caso de urgência</mat-label>
+            <input matInput formControlName="nomeContatoUrgencia" name="nomeContatoUrgencia">
+          </mat-form-field>
+
+          <mat-form-field *ngIf="isAvailableColchao">
+            <mat-label>Aluguel Colchão</mat-label>
+            <mat-select position="floating" placeholder="Selecione" formControlName="aluguelColchao" name="aluguelColchao">
+              <mat-option value="0">Não</mat-option>
+              <mat-option value="1">Sim</mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label position="floating">Valor já pago</mat-label>
+            <input matInput formControlName="valorPago" name="valorPago">
+          </mat-form-field>
+
+          <button type="button" mat-raised-button class="margin" (click)="fileInput.click()">Foto Comprovante Depósito</button>
+          <input hidden (change)="onFileChange($event)" #fileInput type="file">
+
+          <div>
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button type="submit" mat-raised-button matStepperNext color="primary">Concluir</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </section>
+</section>
+
+<section *ngIf="isComplete">
+  <mat-card appearance="outlined" class="selected-background">
+        <mat-card-header>
+          <mat-card-title> Inscrição Realizada</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Aguardamos você!</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button (click)="newSubscribe()">Nova Inscrição</button>
+        </mat-card-actions>
+      </mat-card>
+</section>

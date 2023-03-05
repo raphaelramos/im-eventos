@@ -1,0 +1,49 @@
+<mat-toolbar color="primary">
+    <span>Inscrito</span>
+</mat-toolbar>
+
+<section class="margin">
+    <button mat-raised-button color="primary" *ngIf="!inscricao.checkin" (click)="checkin(inscricao.idInscricao)">Fazer Check-in</button>
+    <p *ngIf="inscricao.checkin"><strong>Check-in em:</strong> {{ inscricao.checkin | date: 'dd/MM/yyyy hh:mm' }}</p>
+</section>
+
+<div *ngIf="inscricao">
+    <mat-list>
+        <mat-list-item><strong>Nome:</strong> {{inscricao.nome}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong>Cidade:</strong> {{inscricao.cidade}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong>Email:</strong> {{inscricao.email}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong>Telefone:</strong> {{inscricao.telefone}}</mat-list-item>
+    </mat-list>
+    <button mat-raised-button [routerLink]="['/painel/administracao/usuarios/cadastro', inscricao.id]">Editar</button>
+
+    <mat-toolbar color="primary">
+        <span>Inscrição</span>
+    </mat-toolbar>
+
+    <mat-list>
+        <mat-list-item><strong>Tipo:</strong> {{inscricao.nomeValor}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong>Nível:</strong> {{inscricao.nivel}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong>Inscrito em:</strong> {{inscricao.dataInscricao | date}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong>Valor pago:</strong> {{inscricao.valorPago}}</mat-list-item>
+        <mat-list-item>
+            <strong>Aluguel Colchão: </strong>
+            <span *ngIf="inscricao.aluguelColchao === 0">Não</span>
+            <span *ngIf="inscricao.aluguelColchao === 1">Sim</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <strong>Contato Urgência:</strong>
+            {{inscricao.nomeContatoUrgencia}} {{inscricao.contatoUrgencia}}
+        </mat-list-item>
+    </mat-list>
+
+    <section *ngIf="inscricao.tipoPagamento === 'comprovante_file'">
+        <button mat-raised-button (click)="abrirComprovante(inscricao.dados)">Abrir comprovante</button>
+    </section>
+</div>

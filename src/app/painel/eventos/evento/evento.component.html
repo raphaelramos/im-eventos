@@ -1,0 +1,34 @@
+<div class="grid-default margin">
+    <!-- Eventos -->
+    <mat-card appearance="outlined" routerLink="inscricoes" class="pointer">
+      <mat-card-header>
+        <div mat-card-avatar class="inscricoes-header-image cover"></div>
+        <mat-card-title>Inscrições</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+</div>
+
+<mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Quantidade Total
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+            <mat-list-item><strong>Inscrições:</strong> {{inscricoes?.alunos.total}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><strong>Voluntários trabalhar:</strong> {{inscricoes?.voluntarios.total}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><strong>Inscrições Nível 1:</strong> {{inscricoes?.nivel1.total}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><strong>Inscrições Nível 2:</strong> {{inscricoes?.nivel2.total}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><strong>Inscrições Nível 3:</strong> {{inscricoes?.nivel3.total}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><strong>Alojamento Masculino:</strong> {{inscricoes?.alojamentoM.total}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><strong>Alojamento Feminino:</strong> {{inscricoes?.alojamentoF.total}}</mat-list-item>
+        </mat-list>
+    </mat-expansion-panel>
+</mat-accordion>

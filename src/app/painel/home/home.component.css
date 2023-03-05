@@ -1,0 +1,11 @@
+.cover {
+  background-size: cover;
+}
+
+.eventos-header-image {
+  background-image: url('/assets/img/logo-header.png');
+}
+
+.administracao-header-image {
+  background-image: url('/assets/icon/administracao.png');
+}

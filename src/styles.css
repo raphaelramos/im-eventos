@@ -1,0 +1,138 @@
+@import 'css/busy.css';
+@import 'css/layouts.css';
+@import "https://fonts.googleapis.com/css?family=Material+Icons";
+@import "https://fonts.googleapis.com/css?family=Roboto:400,300";
+
+@tailwind base;
+@tailwind utilities;
+/* @tailwind components; */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:host {
+  min-height: 100%;
+  display: flex;
+}
+
+.search-header {
+  padding: 8px 0px 0;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+@layer base {
+  .grid-default {
+    @apply grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .list-itens {
+    @apply w-full border-none py-1;
+  }
+}
+
+mat-row {
+  margin-top: 5px;
+}
+
+mat-row:hover {
+  background-color: #82B1FF;
+}
+
+.mat-mdc-card-title {
+  font-weight: 500;
+}
+
+.content {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  width: 100% !important;
+}
+
+.title-form {
+  margin: 20px 15px !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  font-family: sans-serif !important;
+}
+
+.subtitle-form {
+  font-size: 14px;
+  margin-left: 15px;
+}
+
+.small-text {
+  font-size: 14px;
+}
+
+input.mat-mdc-input-element {
+  margin-top: -1em !important;
+}
+
+.maiusculo {
+  text-transform: uppercase;
+}
+
+.aviso {
+  color: #909090;
+}
+
+.red {
+  color: #EF5350;
+}
+
+.porcentagem {
+  width: 70% !important;
+  display: inline-block !important;
+}
+
+.pt-25 {
+  padding-top: 25px;
+}
+
+.margin-top {
+  margin-top: 10px !important;
+}
+
+.mt-0 {
+  margin-top: 0px;
+}
+
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.ml-10 {
+  margin-left: 10px !important;
+}
+
+.mat-fab-top {
+  top: 20px;
+}
+
+.margin {
+  margin: 15px 0px !important;
+}
+
+.password {
+  -webkit-text-security: disc;
+}
+
+.pointer {
+  cursor: pointer !important;
+}
+
+.riscado {
+  text-decoration: line-through;
+}

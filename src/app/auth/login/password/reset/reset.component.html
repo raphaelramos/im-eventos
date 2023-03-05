@@ -1,0 +1,30 @@
+<div class="login-page center">
+  <div class="form">
+    <img src="./assets/img/logo.png" width="220px" >
+    <form class="login-form" [formGroup]="f">
+        <input type="hidden" formControlName="token" required />
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="password" required />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirmar Senha</mat-label>
+          <input matInput type="password" formControlName="password_confirmation" required />
+        </mat-form-field>
+        <mat-error *ngIf="password !== password_confirmation" class="margin">
+          As Senhas não conferem.
+        </mat-error>
+        <mat-error *ngIf="password?.length < 6" class="margin">
+          Necessário no mínimo 6 caracteres.
+        </mat-error>
+
+      <button mat-raised-button color="primary" (click)="onSubmit()" class="margin">Salvar</button>
+    </form>
+    <mat-progress-bar class="margin" *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+

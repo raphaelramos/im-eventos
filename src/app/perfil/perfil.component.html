@@ -1,0 +1,48 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ usuario?.nome | titlecase }}</mat-card-title>
+    <mat-card-subtitle>{{ email }}</mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
+
+<p class="margin">
+  <strong>Alterar Senha</strong>
+</p>
+
+<form #form="ngForm" (ngSubmit)="salvar(form.value); form.reset()" autocomplete="off">
+  <div class="grid-default">
+      <mat-form-field>
+        <mat-label>Senha Atual</mat-label>
+        <input matInput type="text" name="antiga" #antiga="ngModel" [(ngModel)]="data.antiga" required class="password" (change)="verificaSenha(antiga.value)">
+        <mat-error *ngIf="antiga.hasError('required')">
+          O campo é <strong>Obrigatório</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nova Senha</mat-label>
+        <input matInput type="password" name="nova" #nova="ngModel" [(ngModel)]="data.nova" minlength="5" maxlength="25" required>
+        <mat-error *ngIf="nova.hasError('required')">
+          O campo é <strong>Obrigatório</strong>
+        </mat-error>
+        <mat-error *ngIf="nova.hasError('minlength')">
+          Muito <strong>Curta</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Repetir Nova Senha</mat-label>
+        <input matInput type="password" name="confere" #confere="ngModel" [(ngModel)]="data.confere" maxlength="25" required>
+        <mat-error *ngIf="confere.hasError('required')">
+          O campo é <strong>Obrigatório</strong>
+        </mat-error>
+      </mat-form-field>
+  </div>
+
+  <p class="mat-mdc-form-field-error" *ngIf="!confereSenha && data.antiga">
+    Senha atual está <strong>errada</strong>
+  </p>
+  <p class="mat-mdc-form-field-error" *ngIf="data.nova !== data.confere && confere.touched">
+    As senhas não <strong>correspondem</strong>
+  </p>
+
+  <button mat-raised-button color="primary" [disabled]="form.invalid || data.nova !== data.confere || !confereSenha" class="margin">Salvar</button>
+</form>

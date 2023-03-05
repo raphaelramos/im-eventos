@@ -1,0 +1,97 @@
+<mat-toolbar color="primary">
+  <span>Cadastro Usuário</span>
+  
+</mat-toolbar>
+
+<form #form="ngForm" (ngSubmit)="salvar(form.value)" class="margin">
+    <input type="hidden" name="id" [(ngModel)]="data.id" *ngIf="data.id">
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput name="nome" #nome="ngModel"
+            [(ngModel)]="data.nome" required>
+        <mat-error *ngIf="nome.hasError('required') && nome.touched">
+            O campo é
+            <strong>Obrigatório</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Celular</mat-label>
+        <input matInput name="telefone" [(ngModel)]="data.telefone" mask="(00) 00000-0000" [validation]="false">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Nível de Permissão</mat-label>
+        <mat-select name="perm" [(ngModel)]="data.perm">
+            <mat-option value="">Aluno</mat-option>
+            <mat-option value="adm">Administrador</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <span class="title-color" *ngIf="data.perm === ''"></span>
+    <span class="title-color" *ngIf="data.perm === 'adm'">Terá acesso para visualizar e modificar tudo no sistema!</span>
+    <mat-form-field class="margin">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput name="email" #email="ngModel" [(ngModel)]="data.email" required>
+        <mat-error *ngIf="email.hasError('required') && email.touched">
+            O campo é
+            <strong>Obrigatório</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Data de Nascimento</mat-label>
+        <input matInput type="date" [(ngModel)]="data.dataNascimento" name="dataNascimento">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Estado</mat-label>
+        <mat-select name="estado" [(ngModel)]="data.estado">
+          <mat-option *ngFor="let estado of estados" [value]="estado.sigla">
+            {{estado.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Cidade</mat-label>
+        <input matInput [(ngModel)]="data.cidade" name="cidade">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Sexo</mat-label>
+        <mat-select placeholder="Selecione" [(ngModel)]="data.sexo" name="sexo">
+          <mat-option value="M">Masculino</mat-option>
+          <mat-option value="F">Feminino</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Senha</mat-label>
+        <input matInput name="password" #password="ngModel" [(ngModel)]="data.password" [required]="!data.id">
+        <mat-error *ngIf="password.hasError('required') && password.touched">
+            O campo é
+            <strong>Obrigatório</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.invalid" class="margin">
+    Preencha todos os campos
+    <strong>obrigatórios*</strong> para salvar.
+    </mat-error>
+
+    <!-- backend errors -->
+    <ng-container *ngIf="formStatus">
+        <div *ngIf="formStatus.canShowErrors()" class="alert alert-danger" role="alert">
+        <div *ngFor="let error of formStatus.errors">
+            <mat-error class="margin" *ngIf="error !== formStatus.textInvalid">
+            {{ error }}
+            </mat-error>
+        </div>
+        </div>
+    </ng-container>
+
+    <button mat-raised-button color="primary" [disabled]="form.invalid" class="margin">Salvar</button>
+    <mat-progress-bar class="margin" *ngIf="salvando" [color]="'primary'" [mode]="'indeterminate'">
+    </mat-progress-bar>
+</form>

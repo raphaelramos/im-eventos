@@ -1,0 +1,63 @@
+<mat-toolbar color="primary">
+  <span>Usuários</span>
+</mat-toolbar>
+
+<ngx-ui-loader></ngx-ui-loader>
+
+<div  ngxUiLoaderBlurred>
+  <mat-form-field class="search-header">
+    <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Pesquisar">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- Nome Column -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        {{user.nome | uppercase}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
+    </ng-container>
+
+    <!-- Login Column -->
+    <ng-container matColumnDef="login_at">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Login </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.login_at | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['cadastro', user.id]">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </button>
+          <button mat-menu-item (click)="delete(user.nome, user.id)">
+            <mat-icon>delete</mat-icon>
+            <span>Excluir</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </table>
+  <mat-paginator #paginator [pageSize]="12" [pageSizeOptions]="[12, 24, 40]">
+  </mat-paginator>
+</div>
+
+<button color="accent" mat-fab class="fab-bottom-right" matTooltip="Novo" matTooltipPosition="above" aria-label="Novo"
+  [routerLink]="['cadastro']">
+  <mat-icon>add</mat-icon>
+</button>

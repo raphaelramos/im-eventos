@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Excluir {{data.name}}? </h1>
+<div mat-dialog-content>
+    <p>Escreva a palavra <strong>excluir</strong> no campo abaixo e confirme</p>
+    <mat-form-field class="margin w-full">
+        <input matInput [(ngModel)]="delete_text" placeholder="Escreva aqui" type="text">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+    <button mat-button [mat-dialog-close]="'confirmed'" [disabled]="toLowerCase(delete_text) !== 'excluir'">Confirmar</button>
+</div>

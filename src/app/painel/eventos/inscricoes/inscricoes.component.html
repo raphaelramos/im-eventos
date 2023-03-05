@@ -1,0 +1,73 @@
+<mat-toolbar color="primary">
+    <span>Inscrições</span>
+</mat-toolbar>
+
+<button mat-raised-button color="primary" [matMenuTriggerFor]="menuNivel" class="margin">Lista por nível</button>
+<mat-menu #menuNivel="matMenu">
+  <button mat-menu-item (click)="abriListaNivel(1)">Nível 1</button>
+  <button mat-menu-item (click)="abriListaNivel(2)">Nível 2</button>
+  <button mat-menu-item (click)="abriListaNivel(3)">Nível 3</button>
+</mat-menu>
+
+<button mat-raised-button color="primary" [matMenuTriggerFor]="menuCpf" class="margin">Lista por CPF</button>
+<mat-menu #menuCpf="matMenu">
+  <button mat-menu-item (click)="abriListaCpf(0)">Todos</button>
+  <button mat-menu-item (click)="abriListaCpf(1)">Apenas com check-in</button>
+</mat-menu>
+  
+<ngx-ui-loader></ngx-ui-loader>
+  
+<div  ngxUiLoaderBlurred>
+  <div class="search-header grid grid-cols-1 md:gap-3 md:grid-cols-2">
+    <mat-form-field>
+        <input matInput (keyup)="search($event)" placeholder="Pesquisar">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="Filtros" [(ngModel)]="idOpcao" (ngModelChange)="load()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="C">Com colchão</mat-option>
+          <mat-option *ngFor="let opcao of opcoes" [value]="opcao.idValor">{{ opcao.nomeValor }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="#">
+          <mat-header-cell *matHeaderCellDef> # </mat-header-cell >
+          <mat-cell *matCellDef="let inscricao; let i = index"> {{i + 1}}</mat-cell>
+      </ng-container>
+
+      <!-- Nome Column -->
+      <ng-container matColumnDef="nome">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+          <mat-cell *matCellDef="let inscricao" [routerLink]="[inscricao.idInscricao]">
+          {{inscricao.nome | uppercase}}
+          </mat-cell>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let inscricao">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="[inscricao.idInscricao]">
+              <mat-icon>edit</mat-icon>
+              <span>Abrir</span>
+            </button>
+            <button mat-menu-item (click)="excluir(inscricao.idInscricao, inscricao.nome)">
+              <mat-icon>delete</mat-icon>
+              <span>Excluir</span>
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </table>
+  <mat-paginator #paginator [length]="total" pageSize="12" (page)="getNext($event)" [pageSizeOptions]="[12, 24, 48]"></mat-paginator>
+</div>
+  

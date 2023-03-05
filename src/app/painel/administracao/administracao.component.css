@@ -1,0 +1,7 @@
+.cover {
+  background-size: cover;
+}
+
+.usuarios-header-image {
+  background-image: url('/assets/icon/usuarios.png');
+}
