@@ -1,32 +1,40 @@
-# Eventos - Intensivo de Missões #
- Inscrição e gestão dos alunos
+# Eventos - Intensivo de Missões
 
-### Pre-requisites ###
- Node.js 16.13.x, 18.10.x
- Angular CLI
+Inscrição e gestão dos alunos
+
+### Pre-requisites
+
+Node.js 16.13.x, 18.10.x,
+Angular CLI
 
 ## 🚀 Quick start
 
-  **Setup this site**
+**Install Node depedences**
 
-    # Install Node depedences
-    npm install
+```bash
+  npm install
+```
 
-  **Change environments**
+**Change environments**
 
-    file `/environments`
+```bash
+  file `/environments`
+```
 
-  **Start developing**
+**Start developing**
 
-    # Using Angular CLI
-    ng serve
+```bash
+  ng serve
+```
 
-  **Build**
+**Build**
 
-    # Using Node scripts with Angular CLI
-    npm run build:production
+```bash
+  npm run build:production
+```
 
-### Tech Stack ### 
+### Tech Stack
+
 <p align="left"> <a href="https://angular.io" target="_blank" rel="noreferrer">
     <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="angular" width="40" height="40"/> </a>
     <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="40" height="40"/> </a>
@@ -37,9 +45,3 @@
 - [Angular](https://angular.io/) - Framework Web
 - [Angular Material](https://material.angular.io/) - Componentes
 - [TailwindCSS](https://tailwindcss.com/) - Framework CSS
-
-### Angular CLI ###
-
-    # New component
-    ng generate component painel/eventos/evento --module eventos
- 
