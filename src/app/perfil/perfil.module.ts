@@ -8,8 +8,6 @@ import { PerfilComponent } from './perfil.component';
 import { AuthService } from '../auth/services/auth.service';
 import { MaterialModule } from '../material.module';
 
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 import { TelPipeModule } from '../shared/tel-pipe.module';
 
 @NgModule({
@@ -21,8 +19,7 @@ import { TelPipeModule } from '../shared/tel-pipe.module';
             { path: '', component: PerfilComponent }
         ]),
         MaterialModule,
-        TelPipeModule,
-        NgxChartsModule
+        TelPipeModule
     ],
     providers: [AuthService]
 })

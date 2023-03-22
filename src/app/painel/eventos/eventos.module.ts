@@ -8,7 +8,6 @@ import { EventosComponent } from './eventos.component';
 import { EventosService } from './eventos.service';
 import { MaterialModule } from '../../material.module';
 
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 import { TelPipeModule } from '../../shared/tel-pipe.module';
@@ -29,7 +28,6 @@ import { InscricaoComponent } from './inscricoes/inscricao/inscricao.component';
         FormsModule, ReactiveFormsModule,
         MaterialModule,
         TelPipeModule,
-        NgxChartsModule,
         NgxUiLoaderModule
     ],
     providers: [EventosService]
