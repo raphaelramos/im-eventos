@@ -13,9 +13,9 @@ import { AuthService } from './../../services/auth.service';
 })
 export class PasswordComponent implements OnInit {
 
-    f: FormGroup;
-    loading = false;
-    errorCredentials = false;
+    form: FormGroup;
+    isLoading = false;
+    isError = false;
 
     constructor(private formBuilder: FormBuilder,
         private authService: AuthService,
@@ -23,18 +23,18 @@ export class PasswordComponent implements OnInit {
         public snackBar: MatSnackBar) { }
 
     ngOnInit() {
-        this.f = this.formBuilder.group({
+        this.form = this.formBuilder.group({
             email: [null, [Validators.required, Validators.email]]
         });
     }
 
     onSubmit() {
-        this.loading = true;
-        this.authService.password(this.f.value).subscribe({
+        this.isLoading = true;
+        this.authService.password(this.form.value).subscribe({
             error: (errorResponse: HttpErrorResponse) => {
                 if (errorResponse.status === 401) {
-                    this.errorCredentials = true;
-                    this.loading = false;
+                    this.isError = true;
+                    this.isLoading = false;
                 }
             }
         });

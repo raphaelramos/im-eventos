@@ -1,7 +1,7 @@
 <div class="login-page center">
   <div class="form">
-    <img src="./assets/img/logo.png">
-    <form [formGroup]="f">
+    <img src="./assets/img/logo.png" />
+    <form [formGroup]="form">
       <mat-form-field>
         <mat-label>Email ou Telefone</mat-label>
         <input matInput type="email" formControlName="email" required />
@@ -10,13 +10,20 @@
         <mat-label>Senha</mat-label>
         <input matInput type="password" formControlName="password" required />
       </mat-form-field>
-      
-      <mat-error *ngIf="loginError" [innerHTML]="loginMsg"></mat-error>
-      <button mat-raised-button color="primary" (click)="onSubmit()">login</button>
+
+      <mat-error *ngIf="isError" [innerHTML]="loginMsg"></mat-error>
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        login
+      </button>
       <p class="message">
         <a href="#" [routerLink]="['/password']">Esqueci a Senha</a>
       </p>
     </form>
-    <mat-progress-bar class="margin" *ngIf="loading && !loginError" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar
+      class="margin"
+      *ngIf="isLoading && !isError"
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
   </div>
 </div>

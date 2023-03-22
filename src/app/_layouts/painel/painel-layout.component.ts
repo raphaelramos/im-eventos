@@ -1,8 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Subject} from 'rxjs';
+import { takeUntil} from 'rxjs/operators';
 
 import { AuthService } from '../../auth/services/auth.service';
+import { User } from 'src/app/auth/interfaces/user.model';
 
 @Component({
   selector: 'app-root',
@@ -11,42 +14,33 @@ import { AuthService } from '../../auth/services/auth.service';
 })
 
 export class PainelLayoutComponent implements OnInit, OnDestroy {
+  destroyed = new Subject<void>();
+  isScreenXSmall: boolean;
 
   isDarkTheme = false;
-  showMenu = true;
-  publicMenu;
+  isShowMenu = true;
   userBgUrl = './assets/img/user-bg.jpg';
 
-  cobertura: string;
-  usuario: any;
+  usuario: User;
   username: string;
   mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
 
   menus = [
     { name: 'Inscrição', link: '/subscribe' },
     { name: 'Perfil', link: '/perfil' },
   ];
-
+  
   constructor(public router: Router,
   private authService: AuthService,
-  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-  }
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-
-  sair() {
-    this.authService.logout();
-  }
-
-  changeTheme() {
-    this.isDarkTheme = !this.isDarkTheme;
-    localStorage.setItem('theme', this.isDarkTheme.toString());
+  breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((state: BreakpointState) => {
+        this.isScreenXSmall = (state.matches) ? true : false;
+      });
   }
 
   ngOnInit() {
@@ -63,6 +57,20 @@ export class PainelLayoutComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('theme') === 'true') {
       this.isDarkTheme = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  changeTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    localStorage.setItem('theme', this.isDarkTheme.toString());
   }
 
 }

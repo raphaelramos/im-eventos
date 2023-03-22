@@ -8,6 +8,7 @@ import { AuthService } from '../../../../auth/services/auth.service';
 import { FormStatus } from '../../../../shared/formStatus';
 import { extractErrorMessagesFromErrorResponse } from '../../../../shared/errorResponse';
 import { Estados } from '../../../../shared/estados';
+import { User } from 'src/app/auth/interfaces/user.model';
 
 @Component({
   selector: 'app-usuarios-formulario',
@@ -17,7 +18,7 @@ import { Estados } from '../../../../shared/estados';
 export class UsuariosFormularioComponent implements OnInit {
 
   id: number;
-  data: any = {
+  data: User = {
     perm: '',
     password: this.passwordSuggest()
   };

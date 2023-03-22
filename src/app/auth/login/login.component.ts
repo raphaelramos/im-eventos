@@ -15,9 +15,9 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 export class LoginComponent implements OnInit {
 
-  f: FormGroup;
-  loading = false;
-  loginError = false;
+  form: FormGroup;
+  isLoading = false;
+  isError = false;
   loginMsg: string;
 
   constructor(private formBuilder: FormBuilder,
@@ -33,12 +33,12 @@ export class LoginComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.f = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       email: [null, [Validators.required]],
       password: [null, [Validators.required]]
     });
 
-    this.f.controls['email'].valueChanges.subscribe(value => {
+    this.form.controls['email'].valueChanges.subscribe(value => {
       this.mask(value);
     });
 
@@ -52,13 +52,13 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.loading = true;
-    this.loginError = false;
+    this.isLoading = true;
+    this.isError = false;
     this.loginMsg = null;
 
-    let email = this.f.value.email;
+    let email = this.form.value.email;
     if(!this.emailIsValid(email)) {
-      email = this.replaceMask(this.f.value.email);
+      email = this.replaceMask(this.form.value.email);
     }
 
     const deviceInfo = this.deviceService.getDeviceInfo();
@@ -66,12 +66,12 @@ export class LoginComponent implements OnInit {
 
     const login = {
       email: email,
-      password: this.f.value.password,
+      password: this.form.value.password,
       device_name: device
     }
     this.authService.login(login).subscribe({
         error: (errorResponse: HttpErrorResponse) => {
-          this.loginError = true;
+          this.isError = true;
           switch (errorResponse.status) {
             case 400:
               this.loginMsg = 'Email ou senha inválidos.';
@@ -148,7 +148,7 @@ export class LoginComponent implements OnInit {
           }
         }
     }
-    this.f.controls['email'].patchValue(applied, {emitEvent: false});
+    this.form.controls['email'].patchValue(applied, {emitEvent: false});
   }
 
 }

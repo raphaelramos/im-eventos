@@ -1,6 +1,6 @@
 <div [class.dark-theme]="isDarkTheme">
 
-  <div class="layout-container" [class.layout-is-mobile]="mobileQuery.matches">
+  <div class="layout-container" [class.layout-is-mobile]="isScreenXSmall">
     <mat-toolbar color="primary" class="layout-toolbar">
       <button mat-icon-button caria-label="Menu" (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
@@ -12,9 +12,9 @@
       </button>
     </mat-toolbar>
 
-    <mat-sidenav-container class="layout-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches"
-      [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" (click)="mobileQuery.matches ? snav.close() : ''">
+    <mat-sidenav-container class="layout-sidenav-container" [style.marginTop.px]="isScreenXSmall ? 56 : 0">
+      <mat-sidenav #snav [mode]="isScreenXSmall ? 'over' : 'side'" [opened]="!isScreenXSmall"
+      [fixedInViewport]="isScreenXSmall" fixedTopGap="56" (click)="isScreenXSmall ? snav.close() : ''">
 
         <header *ngIf="isLogged()" class="user-header" [ngStyle]="{'background-image': 'url(' + userBgUrl + ')'}">
           <mat-icon>account_circle</mat-icon>
@@ -33,7 +33,7 @@
           <mat-list-item *ngIf="!isLogged()" routerLinkActive="active" routerLink="/login">
             <span>Login</span>
           </mat-list-item>
-          <mat-list-item *ngIf="isLogged()" (click)="sair()">
+          <mat-list-item *ngIf="isLogged()" (click)="logout()">
             <span>Sair</span>
           </mat-list-item>
         </mat-nav-list>

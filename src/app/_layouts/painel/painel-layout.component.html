@@ -1,45 +1,66 @@
 <div [class.dark-theme]="isDarkTheme">
-
-  <div class="layout-container" [class.layout-is-mobile]="mobileQuery.matches">
+  <div class="layout-container" [class.layout-is-mobile]="isScreenXSmall">
     <mat-toolbar color="primary" class="layout-toolbar">
       <button mat-icon-button caria-label="Menu" (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <img src="./assets/img/logo-header.png"  [routerLink]="['/painel']">
+      <img src="./assets/img/logo-header.png" [routerLink]="['/painel']" />
       <span class="toolbar-spacer"></span>
-      <button mat-icon-button [matMenuTriggerFor]="themeMenu" aria-label="Tema" matTooltip="Opções">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="themeMenu"
+        aria-label="Tema"
+        matTooltip="Opções"
+      >
         <mat-icon>more_vert</mat-icon>
       </button>
     </mat-toolbar>
 
-    <mat-sidenav-container class="layout-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches" 
-      [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" (click)="mobileQuery.matches ? snav.close() : ''">
-
-        <header class="user-header" [ngStyle]="{'background-image': 'url(' + userBgUrl + ')'}">
+    <mat-sidenav-container
+      class="layout-sidenav-container"
+      [style.marginTop.px]="isScreenXSmall ? 56 : 0"
+    >
+      <mat-sidenav
+        #snav
+        [mode]="isScreenXSmall ? 'over' : 'side'"
+        [opened]="!isScreenXSmall"
+        [fixedInViewport]="isScreenXSmall"
+        fixedTopGap="56"
+        (click)="isScreenXSmall ? snav.close() : ''"
+      >
+        <header
+          class="user-header"
+          [ngStyle]="{ 'background-image': 'url(' + userBgUrl + ')' }"
+        >
           <mat-icon>account_circle</mat-icon>
           <span class="text-top">
-            <strong>&nbsp;{{username | titlecase}}</strong>
-            <p [routerLink]="['/perfil']" class="pointer">{{usuario?.email}}</p>
+            <strong>&nbsp;{{ username | titlecase }}</strong>
+            <p [routerLink]="['/perfil']" class="pointer">
+              {{ usuario?.email }}
+            </p>
           </span>
         </header>
 
         <mat-nav-list>
-          <mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/painel">
+          <mat-list-item
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="/painel"
+          >
             <span>Painel</span>
           </mat-list-item>
         </mat-nav-list>
 
-        <div *ngIf="showMenu">
+        <div *ngIf="isShowMenu">
           <mat-nav-list *ngFor="let menu of menus">
             <mat-list-item routerLinkActive="active" [routerLink]="menu.link">
-              <span>{{menu.name}}</span>
+              <span>{{ menu.name }}</span>
             </mat-list-item>
           </mat-nav-list>
         </div>
 
         <mat-nav-list>
-          <mat-list-item (click)="sair()">
+          <mat-list-item (click)="logout()">
             <span>Sair</span>
           </mat-list-item>
         </mat-nav-list>

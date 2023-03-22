@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '../auth/interfaces/user.model';
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
@@ -8,10 +9,14 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class PerfilComponent implements OnInit {
 
-  usuario: any;
+  usuario: User;
   email: string;
   confereSenha = true;
-  data: any = {};
+  data = {
+    antiga: '',
+    nova: '',
+    confere: ''
+  };
 
   constructor(private authService: AuthService, public snackBar: MatSnackBar) { }
 

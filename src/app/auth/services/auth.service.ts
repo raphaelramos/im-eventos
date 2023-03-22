@@ -47,15 +47,23 @@ export class AuthService {
     return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   }
 
+  getApiUser() {
+    return this.http.get<any>(`${environment.base}/auth/me`)
+      .pipe(take(1));
+  }
+
   async setUser(): Promise<boolean> {
-    const data = await this.http.get<any>(`${environment.base}/auth/me`).toPromise();
-    if (data.user) {
-      localStorage.setItem('user', JSON.stringify(data.user));
-      setTimeout(() => {
-        this.redirect();
-      }, 100);
-      return true;
-    }
+    this.getApiUser().subscribe(
+      {
+        next: data => {
+         localStorage.setItem('user', JSON.stringify(data.user));
+          setTimeout(() => {
+            this.redirect();
+          }, 100);
+          return true;
+        }
+      }
+    );
     return false;
   }
 
@@ -95,7 +103,7 @@ export class AuthService {
       .pipe(take(1));
   }
 
-  redirect(): any {
+  redirect() {
     if (localStorage.getItem('user')) {
       this.http.get<any>(`${environment.base}/auth/me`).subscribe(data => {
         if (data.user.perm === 'adm') {

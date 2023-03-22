@@ -1,8 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Subject} from 'rxjs';
+import { takeUntil} from 'rxjs/operators';
 
 import { AuthService } from '../../auth/services/auth.service';
+import { User } from 'src/app/auth/interfaces/user.model';
 
 @Component({
   selector: 'app-root',
@@ -11,26 +14,30 @@ import { AuthService } from '../../auth/services/auth.service';
 })
 
 export class PublicLayoutComponent implements OnInit, OnDestroy {
+  destroyed = new Subject<void>();
+  isScreenXSmall: boolean;
 
   isDarkTheme = false;
-  publicMenu;
   userBgUrl = './assets/img/user-bg.jpg';
 
   menus = [
     { name: 'Inscrição', link: '/subscribe' },
   ];
 
-  usuario: any;
+  usuario: User;
   username: string;
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
 
   constructor(public router: Router,
-    private authService: AuthService,
-    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+  private authService: AuthService,
+  breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((state: BreakpointState) => {
+        this.isScreenXSmall = (state.matches) ? true : false;
+      });
   }
 
   ngOnInit() {
@@ -50,16 +57,17 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
   getUser() {
     this.usuario = JSON.parse(localStorage.getItem('user'));
     this.username = this.usuario.nome.slice(0, 24);
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-
-  sair() {
+  logout() {
     this.authService.logout();
   }
 

@@ -14,7 +14,7 @@ import { AuthService } from './../../../services/auth.service';
 export class ResetComponent implements OnInit {
 
     f: FormGroup;
-    loading = false;
+    isLoading = false;
     errorCredentials = false;
 
     password: string;
@@ -36,12 +36,12 @@ export class ResetComponent implements OnInit {
     }
 
     onSubmit() {
-        this.loading = true;
+        this.isLoading = true;
         this.authService.passwordReset(this.f.value).subscribe({
             error: (errorResponse: HttpErrorResponse) => {
                 if (errorResponse.status === 401) {
                     this.errorCredentials = false;
-                    this.loading = false;
+                    this.isLoading = false;
                 }
             }
         });

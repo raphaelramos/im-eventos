@@ -32,7 +32,6 @@
     "@zxing/ngx-scanner": "^3.8.0",
     "less": "^3.13.1",
     "ngx-device-detector": "^5.0.1",
-    "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-mask": "^11.1.5",
     "ngx-ui-loader": "^13.0.0",
     "rxjs": "~7.8.0",
