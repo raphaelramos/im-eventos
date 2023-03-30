@@ -14,7 +14,7 @@ import { User } from 'src/app/auth/interfaces/user.model';
 })
 
 export class PainelLayoutComponent implements OnInit, OnDestroy {
-  destroyed = new Subject<void>();
+  destroyed$ = new Subject<void>();
   isScreenXSmall: boolean;
 
   isDarkTheme = false;
@@ -37,7 +37,7 @@ export class PainelLayoutComponent implements OnInit, OnDestroy {
       .observe([
         Breakpoints.XSmall
       ])
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((state: BreakpointState) => {
         this.isScreenXSmall = (state.matches) ? true : false;
       });
@@ -60,8 +60,8 @@ export class PainelLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   logout() {

@@ -15,6 +15,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { NgxMaskModule } from 'ngx-mask';
 
 // layouts
+import { LoginLayoutComponent } from './_layouts/login/login-layout.component';
 import { PublicLayoutComponent } from './_layouts/public/public-layout.component';
 import { PainelLayoutComponent } from './_layouts/painel/painel-layout.component';
 
@@ -50,6 +51,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
+    LoginLayoutComponent,
     PublicLayoutComponent,
     PainelLayoutComponent,
     SobreComponent

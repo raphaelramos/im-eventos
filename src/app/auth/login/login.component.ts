@@ -24,13 +24,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     public snackBar: MatSnackBar,
-    private deviceService: DeviceDetectorService) {
-        document.body.style.backgroundImage       = `url('assets/img/home-bg.jpg')`;
-        document.body.style.backgroundPosition    = 'center center';
-        document.body.style.backgroundRepeat      = 'no-repeat';
-        document.body.style.backgroundAttachment  = 'fixed';
-        document.body.style.backgroundSize        = 'cover';
-    }
+    private deviceService: DeviceDetectorService) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

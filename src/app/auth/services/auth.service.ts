@@ -1,18 +1,22 @@
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 
 import { User } from './../interfaces/user.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnDestroy {
 
-  private coberturaChange: BehaviorSubject<string> = new BehaviorSubject(null);
+  subscribe$!: Subscription;
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  ngOnDestroy(): void {
+    this.subscribe$.unsubscribe();
+  }
 
   check(): boolean {
     return localStorage.getItem('user') ? true : false;
@@ -22,22 +26,21 @@ export class AuthService {
     return this.http.post<any>(`${environment.base}/auth/login`, credentials).pipe(
       tap(data => {
         localStorage.setItem('token', data.token);
-        setTimeout(() => {
           this.setUser();
-        }, 100);
-      }));
+      }),
+      take(1));
   }
 
   password(credentials: { email: string }): Observable<any> {
-    return this.http.post<any>(`${environment.base}/password/email`, credentials);
+    return this.http.post<any>(`${environment.base}/password/email`, credentials).pipe(take(1));
   }
 
   passwordReset(credentials: { token: string, email: string, password: string, password_confirmation: string }): Observable<any> {
-    return this.http.post<any>(`${environment.base}/password/reset`, credentials);
+    return this.http.post<any>(`${environment.base}/password/reset`, credentials).pipe(take(1));
   }
 
   logout(): void {
-    this.http.get(`${environment.base}/auth/logout`).subscribe(() => {
+     this.subscribe$ = this.http.get(`${environment.base}/auth/logout`).subscribe(() => {
       localStorage.clear();
       this.router.navigate(['/login']);
     });

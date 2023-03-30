@@ -7,15 +7,11 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { SobreComponent } from './sobre/sobre.component';
 
+import { LoginLayoutComponent } from './_layouts/login/login-layout.component';
 import { PublicLayoutComponent } from './_layouts/public/public-layout.component';
 import { PainelLayoutComponent } from './_layouts/painel/painel-layout.component';
 
 export const ROUTES: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'login/:redirect', component: LoginComponent },
-    { path: 'password', component: PasswordComponent },
-    { path: 'password/reset/:token', component: ResetComponent },
-
     // Public
     {
         path: '',
@@ -28,6 +24,24 @@ export const ROUTES: Routes = [
                 loadChildren: () => import('./subscribe/subscribe.module').then(m => m.SubscribeModule),
             },
             { path: 'sobre', component: SobreComponent },
+        ]
+    },
+
+    // Login
+    {
+        path: 'login',
+        component: LoginLayoutComponent,
+        children: [
+            { path: '', component: LoginComponent },
+            { path: ':redirect', component: LoginComponent },
+        ]
+    },
+    {
+        path: 'password',
+        component: LoginLayoutComponent,
+        children: [
+            { path: '', component: PasswordComponent },
+            { path: 'reset/:token', component: ResetComponent },
         ]
     },
 
